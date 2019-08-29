@@ -1,0 +1,32 @@
+{% extends 'base/bar_base.html'%}
+
+{% block title %}注册{% endblock %}
+
+{% block content %}
+{{errors}}
+<div class="panel panel-info">
+  <div class="panel-heading">
+  <h2>请输入学生家庭信息</h2>
+</div>
+  <div class="panel-body">
+    <form action="" method="POST">{% csrf_token %}
+    	<hr>
+		<h3>家庭成员1</h3>
+		<hr>
+		<table align="center">
+			{{familymemberoneform}}
+		</table>
+		<hr>
+		<h3>家庭成员2</h3>
+		<hr>
+		<table align="center">
+			{{familymembertwoform}}
+		</table>
+		<input type="submit" value="确定">
+	</form>
+    </div>
+</div>
+{% endblock %}
+
+{{errors}}
+

@@ -1,0 +1,22 @@
+{% extends 'base/bar_base.html'%}
+
+{% block title %}注册{% endblock %}
+
+{% block content %}
+{{errors}}
+<div class="panel panel-info">
+  <div class="panel-heading">
+  <h2>请输入学生相关信息</h2>
+</div>
+  <div class="panel-body">
+    <form action="" method="POST">{% csrf_token %}
+  		<table align="center">
+  		{{schoolroolform}}
+  		</table>
+		<br>
+		  <input type="submit" value="确定">
+	</form>
+    </div>
+</div>
+{% endblock %}
+

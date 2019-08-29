@@ -1,0 +1,9 @@
+body {
+    background-color:#ccc;
+    font-size: 200%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    text-align:center;
+}
