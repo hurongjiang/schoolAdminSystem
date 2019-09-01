@@ -1,7 +1,7 @@
 from django.shortcuts import render,HttpResponse
 from django.utils.http import urlquote
 from io import BytesIO
-import xlwt
+import xlwt,datetime
 
 from public.models import School
 
@@ -29,7 +29,7 @@ def export_st_info_writer(request,type_data):
                 bottom THIN;
             """)
     sheet.write(0,0,type_data)
-#表头
+    #表头
     sheet_data= ['姓名','曾用名','身份证号','性别','民族','学校','年级','班级','户口性质','现住地址','是否是独生子女','是否留守儿童','健康状况','入学方式','就读方式','是否残疾人','国网学籍号','省网学籍号']
     heald_nu = len(sheet_data)
     for i in range(0,len(sheet_data)):
@@ -75,7 +75,7 @@ def export_st_info_writer(request,type_data):
         sheet.write(i+2,15,is_disable)
         sheet.write(i+2,16,st_tem.country_ID)
         sheet.write(i+2,17,st_tem.province_ID)
-#学生家庭信息
+        #学生家庭信息
         try:
             familyone = st_tem.familymemberone
             
@@ -109,9 +109,9 @@ def export_st_info_writer(request,type_data):
                 sheet.write(i+2,34,familytwo.member_job_two)
                 sheet.write(i+2,35,familytwo.member_duty_two)
             except Exception as e:
-                sheet.write(i+len(st_info)+2,1,'注：没有输入家庭信息成员2,第%s行%s'%(i+3,st_tem.name),style_heading)
+                sheet.write(i+len(st_info)+2,1,'注：没有输入家庭信息成员2,第%s行%s'%(i+3,st_tem.name))
         except Exception as e:
-            sheet.write(i+len(st_info)+2,0,'注：没有输入家庭信息成员1,第%s行%s'%(i+3,st_tem.name),style_heading)
+            sheet.write(i+len(st_info)+2,0,'注：没有输入家庭信息成员1,第%s行%s'%(i+3,st_tem.name))
 
     output = BytesIO()
     xldata.save(output)
@@ -124,7 +124,8 @@ def export_st_info_writer(request,type_data):
 def export_st_info_excel(request,type_data):
     # 设置HTTPResponse的类型
     response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment;filename=%s.xls'%urlquote(type_data)
+    file_name = '%s学生信息%s'%(type_data,datetime.datetime.now())
+    response['Content-Disposition'] = 'attachment;filename=%s.xls'%urlquote(file_name)
     output = export_st_info_writer(request,type_data)
     response.write(output.getvalue())
     return response   

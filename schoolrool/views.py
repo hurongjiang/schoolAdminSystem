@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
 from .forms import Schoolroolform,Familymemberoneform,Familymembertwoform
 from .models import Schoolrool,Familymemberone,Familymembertwo
-from public.models import School
+from public.models import School,Grade,Class_bj
 from .dowload_model import export_st_info_excel
+import datetime
 # Create your views here.
 
 def login(request):
@@ -90,9 +91,42 @@ def register_success(request):
     return render(request,'register/register_success.html')
 
 def dowlaod_st_info(request):
-    context={}
-    
     if request.method == 'POST':
-        school_name = request.POST.get("school_name")
-        return export_st_info_excel(request,school_name)
+        username = request.user.username
+        if username == 'hrj':
+            print(123)
+        elif School.objects.filter(school=username).exists():
+            return export_st_info_excel(request,username)
+        else:
+            return redirect('user_login')
+    context={}
+    context['school'] = School.objects.all().values('school')
+    context['grade'] = Grade.objects.all()
+    context['class_bj'] = Class_bj.objects.all()
     return render(request,'dowload_info/dowload_st_info.html',context)
+
+def show_st_info(request):
+    context ={}
+    school = School.objects.filter(school=request.user.username)
+    for school_tem in school:
+        st_info = school_tem.schoolrool_set.all()
+        st_total = []
+        for st_tem in st_info:
+            
+            try:
+                familymemberone = st_tem.familymemberone
+            except Exception as e:
+                familymemberone={}
+                familymemberone['member_name_one'] = '无'
+            try:
+                familymembertwo = st_tem.familymembertwo
+            except Exception as e:
+                familymembertwo={}
+                familymembertwo['member_name_two'] = '无'
+            context_tem = {}
+            context_tem['st_tem'] = st_tem
+            context_tem['familymemberone'] = familymemberone
+            context_tem['familymembertwo'] = familymembertwo
+            st_total.append(context_tem)
+        context['st_all_info'] = st_total
+    return render(request,'show_student/show_st_info.html',context)
