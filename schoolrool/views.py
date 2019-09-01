@@ -1,13 +1,15 @@
 from django.shortcuts import render,redirect
 from .forms import Schoolroolform,Familymemberoneform,Familymembertwoform
 from .models import Schoolrool,Familymemberone,Familymembertwo
-from public.models import School
-from .dowload_model import export_st_info_excel
+from public.models import School,Grade,Class_bj
+from .dowload_model import export_st_info_excel,export_class_info_excel,export_grade_info_excel
+import datetime
 # Create your views here.
 
 def login(request):
     context = {}
     return render(request,'login/index.html')
+    
 def is_family_register(request):
     return render(request,'register/is_family_register.html')
 
@@ -89,10 +91,69 @@ def single_parent_family(request):
 def register_success(request):
     return render(request,'register/register_success.html')
 
-def dowlaod_st_info(request):
+def grade_class_public(request):
     context={}
-    
-    if request.method == 'POST':
-        school_name = request.POST.get("school_name")
-        return export_st_info_excel(request,school_name)
+    context['grade'] = Grade.objects.all().values('grade')
+    context['class_bj'] = Class_bj.objects.all().values('class_bj')
     return render(request,'dowload_info/dowload_st_info.html',context)
+
+def dowlaod_st_info(request):
+    if request.method == 'POST':
+        username = request.user.username
+        if username == 'hrj':
+            print(123)
+        elif School.objects.filter(school=username).exists():
+            return export_st_info_excel(request,username)
+        else:
+            return redirect('user_login')
+    return grade_class_public(request)
+
+def dowload_bj_st_info(request):
+    if request.method == 'POST':
+        grade=request.POST.get('grade')
+        class_bj = request.POST.get('class_bj')
+        grade = Grade.objects.filter(grade=grade).first()
+        class_bj = Class_bj.objects.filter(class_bj=class_bj).first()
+        schoolrool = Schoolrool.objects.filter(grade=grade,class_bj=class_bj)
+        if schoolrool.exists():
+            return export_class_info_excel(request,schoolrool)
+        else:
+            return grade_class_public(request)
+    else:
+        return grade_class_public(request)
+
+def dowload_grade_st_info(request):
+    if request.method == 'POST':
+        grade = request.POST.get('grade')
+        grade = Grade.objects.filter(grade=grade).first()
+        st_info = grade.schoolrool_set.all()
+        if st_info.exists():
+            return export_grade_info_excel(request,st_info)
+        else:
+            return grade_class_public(request)
+
+def show_st_info(request):
+    context ={}
+    school = School.objects.filter(school=request.user.username)
+    for school_tem in school:
+        st_info = school_tem.schoolrool_set.all()
+        st_total = []
+        for st_tem in st_info:
+            
+            try:
+                familymemberone = st_tem.familymemberone
+            except Exception as e:
+                familymemberone={}
+                familymemberone['member_name_one'] = '无'
+            try:
+                familymembertwo = st_tem.familymembertwo
+            except Exception as e:
+                familymembertwo={}
+                familymembertwo['member_name_two'] = '无'
+            context_tem = {}
+            context_tem['st_tem'] = st_tem
+            context_tem['familymemberone'] = familymemberone
+            context_tem['familymembertwo'] = familymembertwo
+            st_total.append(context_tem)
+        context['st_all_info'] = st_total
+    return render(request,'show_student/show_st_info.html',context)

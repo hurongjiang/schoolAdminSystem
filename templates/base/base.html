@@ -33,7 +33,7 @@
       <ul class="nav navbar-nav navbar-right">
         {% block navbar_right %}{% endblock %}
         <li><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>欢迎您&nbsp{{user}}&nbsp！</a></li>
-        <li><a href=""><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>&nbsp&nbsp注销</a></li>
+        <li><a href="{% url 'login_out' %}"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>&nbsp&nbsp注销</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

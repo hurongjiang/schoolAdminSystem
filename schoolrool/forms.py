@@ -5,6 +5,7 @@ class Schoolroolform(ModelForm):
     class Meta:
         model = Schoolrool
         fields = '__all__'
+        exclude = ['province_ID','country_ID']
         labels = {
         'name':'姓名',
         'alread_name':'曾用名',
@@ -31,13 +32,13 @@ class Schoolroolform(ModelForm):
         print(1111)
         return self.cleaned_data
 #['alread_name','name','sex','IDcard','nation','school','grade','class_bj','by_type','address','is_child','is_leftover_child','is_healdy','entrance_date','entrance_go','how_go_school','is_disable','country_ID','province_ID']
-#['member_name_one','member_ralation_one','member_address_one','member_phone_one','is_guardian_one','member_Idcard_one','member_nation_one','member_job_one','member_duty_one']
-#['member_name_two','member_ralation_two','member_address_two','member_phtwo_two','is_guardian_two','member_Idcard_two','member_nation_two','member_job_two','member_duty_two']
+#['member_name_one','member_ralation_one','member_address_one','member_phone_one','is_guardian_one','member_idcard_one','member_nation_one','member_job_one','member_duty_one']
+#['member_name_two','member_nation_two','member_idcard_two','member_ralation_two','member_address_two','member_phone_two','is_guardian_two','member_job_two','member_duty_two']
 
 class Familymemberoneform(ModelForm):
     class Meta:
         model = Familymemberone
-        exclude = ['name']
+        fields = ['member_name_one','member_nation_one','member_idcard_one','member_ralation_one','member_address_one','member_phone_one','is_guardian_one','member_job_one','member_duty_one']
         labels ={
             'name':'姓名',
             'member_name_one':'成员1姓名',
@@ -54,8 +55,7 @@ class Familymemberoneform(ModelForm):
 class Familymembertwoform(ModelForm):
     class Meta:
         model = Familymembertwo
-        exclude = ['name']
-
+        fields = ['member_name_two','member_nation_two','member_idcard_two','member_ralation_two','member_address_two','member_phone_two','is_guardian_two','member_job_two','member_duty_two']
         labels ={
             'name':'姓名',
             'member_name_two':'成员2姓名',

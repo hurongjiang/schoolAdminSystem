@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'public',
     'schoolrool',
+    'login',
 ]
 
 MIDDLEWARE = [

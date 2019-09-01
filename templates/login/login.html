@@ -1,12 +1,40 @@
+{% load staticfiles%}
 <!DOCTYPE html>
 <html>
 <head>
-	<title>功能</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登录页面</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrib-3.3.7/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'jquery-1.12.4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrib-3.3.7/js/bootstrap.min.js' %}"></script>
 </head>
-<body>
-<a href="{% url 'student_register' %}"><h1>注册</h1></a>
-<a href="">登陆</a>
-<a href="{% url 'dowlaod_st_info' %}"><h1>下载学生信息</h1></a>
-
+<body style="background-color: #ccc;font-size: 200%;position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+    {% if user.is_authenticated %}
+    <meta http-equiv="refresh" content="0;URL={%url 'show_st_info' %}">
+    {% else %}
+        <div class="containter" >
+            <div class="col-xs-8 col-xs-offset-2">
+                <div class="panel panel-default">
+                  <div class="panel-heading" >
+                    <h3 class="panel-title" align="center">登录</h3>
+                  </div>
+                  <div class="panel-body">
+                    <form action="" method="POST">
+                    {% csrf_token %}
+                    {%for tem in login_form%}
+                    <label for="id_for_label">{{tem.label}}</label>
+                    {{tem}}
+                    <p class="text-danger">{{tem.errors.as_text}}</p>
+                    {% endfor%}
+                    <span class="text-danger">{{login_form.non_field_errors}}</span>
+                    <input type="submit" value="登录" class="btn btn-primary">
+                </form>
+                  </div>
+                </div>
+            </div>
+        </div>
+    {% endif%}
 </body>
 </html>
