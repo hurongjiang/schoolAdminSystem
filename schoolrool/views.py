@@ -189,10 +189,12 @@ def alter_st_info(request):
                 familymembertwo = schoolrool.familymembertwo
                 familymembertwo = Familymembertwoform(instance=familymembertwo)
                 context['familymembertwo'] = familymembertwo
+                schoolrool = Schoolroolform(instance=schoolrool)
+                context['schoolrool'] = schoolrool
             except Exception as e:
                 context['errors'] = '错误:%s'%e
-            schoolrool = Schoolroolform(instance=schoolrool)
-            context['schoolrool'] = schoolrool
+                schoolrool = Schoolroolform(instance=schoolrool)
+                context['schoolrool'] = schoolrool
             return render(request,'register/alter_st_info.html',context)
     context['alterstudentinfo'] = Alterstudentinfo()
     return render(request,'register/input_idcard.html',context)
@@ -212,4 +214,4 @@ def alter_st_success(request):
         except Exception as e:
             print(e)
     context['alterstudentinfo'] = Alterstudentinfo()
-    return render(request,'register/alter_st_info.html',context)
+    return render(request,'register/input_idcard.html',context)
