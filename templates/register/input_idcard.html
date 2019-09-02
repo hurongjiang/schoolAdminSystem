@@ -6,7 +6,7 @@
 <div class="panel panel-info">
   <div class="panel-heading"><h5 style="color: red;">修改学生信息</h5></div>
   <div class="panel-body">
-    <form action="" method="post">{% csrf_token %}
+    <form action="{% url 'alter_st_info' %}" method="post">{% csrf_token %}
     	{{alterstudentinfo}}
     	<br>
     	<input type="submit" value="确定">
