@@ -1,7 +1,7 @@
-from django.forms import ModelForm
+from django import forms
 from .models import Schoolrool,Familymemberone,Familymembertwo
 
-class Schoolroolform(ModelForm):
+class Schoolroolform(forms.ModelForm):
     class Meta:
         model = Schoolrool
         fields = '__all__'
@@ -35,7 +35,7 @@ class Schoolroolform(ModelForm):
 #['member_name_one','member_ralation_one','member_address_one','member_phone_one','is_guardian_one','member_idcard_one','member_nation_one','member_job_one','member_duty_one']
 #['member_name_two','member_nation_two','member_idcard_two','member_ralation_two','member_address_two','member_phone_two','is_guardian_two','member_job_two','member_duty_two']
 
-class Familymemberoneform(ModelForm):
+class Familymemberoneform(forms.ModelForm):
     class Meta:
         model = Familymemberone
         fields = ['member_name_one','member_nation_one','member_idcard_one','member_ralation_one','member_address_one','member_phone_one','is_guardian_one','member_job_one','member_duty_one']
@@ -52,7 +52,7 @@ class Familymemberoneform(ModelForm):
             'member_duty_one':'成员1职务',
         }
 
-class Familymembertwoform(ModelForm):
+class Familymembertwoform(forms.ModelForm):
     class Meta:
         model = Familymembertwo
         fields = ['member_name_two','member_nation_two','member_idcard_two','member_ralation_two','member_address_two','member_phone_two','is_guardian_two','member_job_two','member_duty_two']
@@ -68,3 +68,15 @@ class Familymembertwoform(ModelForm):
             'member_job_two':'成员2工作单位',
             'member_duty_two':'成员2职务',
         }
+
+class Alterstudentinfo(forms.Form):
+    IDcard = forms.CharField(label='身份证号',max_length=18)
+'''
+    def clean(self):
+        IDcard = self.cleaned_data['IDcard']
+        if Schoolrool.objects.filter(IDcard=IDcard).exists():
+        else:
+            raise forms.ValidationError("你查询的学生不存在，请先注册！")
+        return IDcard
+
+'''

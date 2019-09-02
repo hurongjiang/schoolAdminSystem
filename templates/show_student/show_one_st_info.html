@@ -1,0 +1,99 @@
+{% extends 'base/bar_base.html'%}
+
+{% block title %}修改学生信息{% endblock %}
+
+{% block content %}
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 style="color: red;">查看学生信息</h5></div>
+  <div class="panel-body">
+    <table border="3" align="center">
+    	<tr>
+    		<th>姓名</th>
+    		<td>{{schoolrool.name}}</td>
+    	</tr>
+    	<tr>
+    		<th>身份证号</th>
+    		<td>{{schoolrool.IDcard}}</td>
+    	</tr>
+    	<tr>
+    		<th>性别</th>
+    		<td>{{schoolrool.sex.sex}}</td>
+    	</tr>
+    	<tr>
+    		<th>民族</th>
+    		<td>{{schoolrool.nation.nation}}</td>
+    	</tr>
+    	<tr>
+    		<th>学校</th>
+    		<td>{{schoolrool.school.school}}</td>
+    	</tr>
+    	<tr>
+    		<th>年级</th>
+    		<td>{{schoolrool.grade.grade}}</td>
+    	</tr>
+    	<tr>
+    		<th>班级</th>
+    		<td>{{schoolrool.class_bj.class_bj}}</td>
+    	</tr>
+    	<tr>
+    		<th>户口性质</th>
+    		<td>{{schoolrool.by_type.bytype}}</td>
+    	</tr>
+    	<tr>
+    		<th>现住地址</th>
+    		<th>{{schoolrool.address}}</th>
+    	</tr>
+    	<tr>
+    		<th>是否是独生子女</th>
+    		{% if schoolrool.is_child %}
+    		<th>是</th>
+    		{% else %}
+    		<th>否</th>
+    		{% endif %}
+    	</tr>
+    	<tr>
+    		<th>是否留守儿童</th>
+    		{% if schoolrool.is_leftover_child %}
+    		<th>是</th>
+    		{% else %}
+    		<th>否</th>
+    		{% endif %}
+    	</tr>
+    	<tr>
+    		<th>健康状况</th>
+    		{% if schoolrool.is_healdy %}
+    		<th>是</th>
+    		{% else %}
+    		<th>否</th>
+    		{% endif %}
+    	</tr>
+    	<tr>
+    		<th>入学方式</th>
+    		<th>{{schoolrool.entrance_go}}</th>
+    	</tr>
+    	<tr>
+    		<th>就读方式</th>
+    		<th>{{schoolrool.how_go_school}}</th>
+    	</tr>
+    	<tr>
+    		<th>是否残疾人</th>
+    		{% if schoolrool.is_disable %}
+    		<th>是</th>
+    		{% else %}
+    		<th>否</th>
+    		{% endif %}
+    	</tr>
+    	<tr>
+    		<th>国网学籍</th>
+    		<th>{{schoolrool.country_ID}}</th>
+    	</tr>
+    	<tr>
+    		<th>省网学籍</th>
+    		<th>{{schoolrool.province_ID}}</th>
+    	</tr>
+    </table>
+    <a href="{% url 'show_one_st' %}"><h4 style="color: black"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>返回主页</h4></a>
+	</div>
+  </div>
+
+{% endblock %}

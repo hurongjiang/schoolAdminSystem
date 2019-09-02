@@ -1,0 +1,16 @@
+{% extends 'base/bar_base.html'%}
+
+{% block title %}修改学生信息{% endblock %}
+
+{% block content %}
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 style="color: red;">修改学生信息</h5></div>
+  <div class="panel-body">
+    <form action="" method="post">{% csrf_token %}
+    	{{alterstudentinfo}}
+    	<input type="submit" value="提交">
+    </form>
+	</div>
+  </div>
+
+{% endblock %}

@@ -56,3 +56,4 @@ class Familymembertwo(models.Model):
 
     def __str__(self):
         return '<Familymembertwo>:%s'%self.member_name_two
+

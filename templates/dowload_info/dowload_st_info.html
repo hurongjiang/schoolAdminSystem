@@ -43,7 +43,7 @@
 		<hr>
 		<h3>下载本校所有学生信息</h3>
 		<hr>
-		<form action="" method="POST">{% csrf_token %}
+		<form action="{% url 'dowlaod_st_info' %}" method="POST">{% csrf_token %}
 			<input type="submit" value="本校所有学生信息">
 		</form>
       </div>
