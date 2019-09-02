@@ -6,6 +6,7 @@
 <div class="panel panel-info">
   <div class="panel-heading"><h5 style="color: red;">修改学生信息</h5></div>
   <div class="panel-body">
+    <span style="color: red;">{{errors}}</span>
     <form action="{% url 'alter_st_success' %}" method="post">{% csrf_token %}
     	<table align='center'>
     	{{schoolrool}}
