@@ -183,18 +183,18 @@ def alter_st_info(request):
             IDcard =alterstudentinfo.cleaned_data['IDcard']
             try:
                 schoolrool = Schoolrool.objects.get(IDcard=IDcard)
+                schoolrool1 = Schoolroolform(instance=schoolrool)
+                context['schoolrool'] = schoolrool1
                 familymemberone = schoolrool.familymemberone
                 familymemberone = Familymemberoneform(instance=familymemberone)
                 context['familymemberone'] = familymemberone
                 familymembertwo = schoolrool.familymembertwo
                 familymembertwo = Familymembertwoform(instance=familymembertwo)
                 context['familymembertwo'] = familymembertwo
-                schoolrool = Schoolroolform(instance=schoolrool)
-                context['schoolrool'] = schoolrool
             except Exception as e:
                 context['errors'] = '错误:%s'%e
-                schoolrool = Schoolroolform(instance=schoolrool)
-                context['schoolrool'] = schoolrool
+                if str(e) == 'Schoolrool matching query does not exist.':
+                    return redirect(alter_st_success)
             return render(request,'register/alter_st_info.html',context)
     context['alterstudentinfo'] = Alterstudentinfo()
     return render(request,'register/input_idcard.html',context)
