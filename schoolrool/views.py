@@ -181,8 +181,10 @@ def alter_st_info(request):
         alterstudentinfo=Alterstudentinfo(request.POST)
         if alterstudentinfo.is_valid():
             IDcard =alterstudentinfo.cleaned_data['IDcard']
-            schoolrool = Schoolrool.objects.get(IDcard=IDcard)
             try:
+                schoolrool = Schoolrool.objects.get(IDcard=IDcard)
+                schoolrool = Schoolroolform(instance=schoolrool)
+                context['schoolrool'] = schoolrool
                 familymemberone = schoolrool.familymemberone
                 familymemberone = Familymemberoneform(instance=familymemberone)
                 context['familymemberone'] = familymemberone
@@ -190,9 +192,9 @@ def alter_st_info(request):
                 familymembertwo = Familymembertwoform(instance=familymembertwo)
                 context['familymembertwo'] = familymembertwo
             except Exception as e:
-                print(e)
-            schoolrool = Schoolroolform(instance=schoolrool)
-            context['schoolrool'] = schoolrool
+                context['errors'] = '错误:%s'%e
+                context['alterstudentinfo'] = Alterstudentinfo()
+                return render(request,'register/input_idcard.html',context)
             return render(request,'register/alter_st_info.html',context)
     context['alterstudentinfo'] = Alterstudentinfo()
     return render(request,'register/input_idcard.html',context)
