@@ -183,8 +183,6 @@ def alter_st_info(request):
             IDcard =alterstudentinfo.cleaned_data['IDcard']
             try:
                 schoolrool = Schoolrool.objects.get(IDcard=IDcard)
-                schoolrool = Schoolroolform(instance=schoolrool)
-                context['schoolrool'] = schoolrool
                 familymemberone = schoolrool.familymemberone
                 familymemberone = Familymemberoneform(instance=familymemberone)
                 context['familymemberone'] = familymemberone
@@ -193,6 +191,8 @@ def alter_st_info(request):
                 context['familymembertwo'] = familymembertwo
             except Exception as e:
                 context['errors'] = '错误:%s'%e
+            schoolrool = Schoolroolform(instance=schoolrool)
+            context['schoolrool'] = schoolrool
             return render(request,'register/alter_st_info.html',context)
     context['alterstudentinfo'] = Alterstudentinfo()
     return render(request,'register/input_idcard.html',context)
